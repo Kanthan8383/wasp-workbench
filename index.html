@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WASP Cohort — Workbench</title>
+<meta name="description" content="Workplace AI Solution Multiplier Project — cohort workbench. Reference library, tutor setup, and all module forms.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-soft: #3d3933;
+    --ink-mute: #6b655c;
+    --paper: #f4efe6;
+    --paper-deep: #ebe3d4;
+    --rule: #c9bfa8;
+    --accent: #8a2e1f;
+    --accent-soft: #b04a36;
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "IBM Plex Sans", -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--paper);
+    background-image:
+      radial-gradient(ellipse at top left, rgba(138, 46, 31, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(26, 24, 20, 0.03) 0%, transparent 50%);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "kern", "liga", "calt";
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+
+  .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ———————— MASTHEAD ———————— */
+  .masthead {
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding: 24px 0 28px;
+    margin-bottom: 72px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    animation: fadeUp 0.8s ease-out;
+  }
+
+  .masthead-left .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 16px;
+  }
+
+  .masthead-left h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+
+  .masthead-left h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .masthead-right {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    line-height: 1.9;
+    white-space: nowrap;
+  }
+
+  .masthead-right div:first-child {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ———————— INTRO ———————— */
+  .intro {
+    max-width: 640px;
+    margin-bottom: 96px;
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--ink-soft);
+    font-variation-settings: "opsz" 32;
+    animation: fadeUp 0.9s ease-out 0.15s both;
+  }
+
+  .intro strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ———————— SECTION STRUCTURE ———————— */
+  .section {
+    margin-bottom: 88px;
+    animation: fadeUp 0.9s ease-out both;
+  }
+  .section:nth-of-type(1) { animation-delay: 0.25s; }
+  .section:nth-of-type(2) { animation-delay: 0.35s; }
+  .section:nth-of-type(3) { animation-delay: 0.45s; }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    align-items: baseline;
+    margin-bottom: 36px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    padding-top: 4px;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 72;
+  }
+
+  .section-desc {
+    grid-column: 2;
+    margin-top: 10px;
+    font-size: 15px;
+    color: var(--ink-mute);
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  .section-body {
+    padding-left: 112px;
+  }
+
+  /* ———————— PRIMARY RESOURCE BLOCKS ———————— */
+  .resource {
+    display: block;
+    text-decoration: none;
+    padding: 28px 32px;
+    border: 1px solid var(--rule);
+    background: rgba(255, 252, 245, 0.5);
+    margin-bottom: 16px;
+    transition: all 0.25s ease;
+    position: relative;
+    color: inherit;
+  }
+
+  .resource:hover {
+    border-color: var(--accent);
+    background: rgba(255, 252, 245, 0.9);
+    transform: translateX(4px);
+  }
+
+  .resource:hover .resource-arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .resource-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .resource-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .resource-sub {
+    font-size: 14px;
+    color: var(--ink-mute);
+    line-height: 1.5;
+  }
+
+  .resource-arrow {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--ink-mute);
+    transition: all 0.25s ease;
+  }
+
+  /* ———————— FORMS INDEX ———————— */
+  .day-group {
+    margin-bottom: 44px;
+  }
+
+  .day-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+    border-bottom: 1px dashed var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .day-count {
+    color: var(--ink-mute);
+    font-weight: 400;
+  }
+
+  .form-list {
+    list-style: none;
+  }
+
+  .form-item {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(201, 191, 168, 0.5);
+  }
+
+  .form-item:last-child {
+    border-bottom: none;
+  }
+
+  .form-link {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 20px;
+    align-items: baseline;
+    text-decoration: none;
+    color: var(--ink);
+    transition: color 0.2s ease;
+  }
+
+  .form-link:hover {
+    color: var(--accent);
+  }
+
+  .form-link:hover .form-name {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+
+  .form-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    padding-top: 3px;
+  }
+
+  .form-name {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .form-arrow {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink-mute);
+  }
+
+  /* ———————— FOOTER ———————— */
+  .footer {
+    margin-top: 120px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+  }
+
+  .footer-right {
+    text-align: right;
+  }
+
+  /* ———————— ANIMATIONS ———————— */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ———————— RESPONSIVE ———————— */
+  @media (max-width: 720px) {
+    .wrap {
+      padding: 48px 24px 80px;
+    }
+
+    .masthead {
+      grid-template-columns: 1fr;
+      margin-bottom: 56px;
+    }
+
+    .masthead-right {
+      text-align: left;
+    }
+
+    .intro {
+      font-size: 19px;
+      margin-bottom: 64px;
+    }
+
+    .section {
+      margin-bottom: 64px;
+    }
+
+    .section-head {
+      grid-template-columns: 48px 1fr;
+      gap: 20px;
+    }
+
+    .section-title {
+      font-size: 26px;
+    }
+
+    .section-desc {
+      grid-column: 1 / -1;
+    }
+
+    .section-body {
+      padding-left: 0;
+    }
+
+    .resource {
+      padding: 22px 20px;
+    }
+
+    .resource-inner {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .resource-arrow {
+      display: none;
+    }
+
+    .resource-title {
+      font-size: 20px;
+    }
+
+    .form-link {
+      grid-template-columns: 60px 1fr 20px;
+      gap: 14px;
+    }
+
+    .form-name {
+      font-size: 16px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<div class="wrap">
+
+  <!-- ———————— MASTHEAD ———————— -->
+  <header class="masthead">
+    <div class="masthead-left">
+      <div class="kicker">Workplace AI Solution Multiplier Project</div>
+      <h1>The <em>WASP</em><br>Workbench</h1>
+    </div>
+    <div class="masthead-right">
+      <div>Cohort&nbsp;Resources</div>
+      <div>Bookmark&nbsp;this&nbsp;page</div>
+      <div>MY&nbsp;·&nbsp;2026</div>
+    </div>
+  </header>
+
+  <!-- ———————— INTRO ———————— -->
+  <p class="intro">
+    Everything you need from the workshop, in one place. The <strong>reference library</strong> is your day-to-day lookup. The <strong>tutor</strong> is your conversational Q&amp;A in your own Claude account. The <strong>forms</strong> are where your exercise submissions live.
+  </p>
+
+  <!-- ———————— SECTION 01 — REFERENCE ———————— -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">01</div>
+      <div>
+        <h2 class="section-title">Reference Library</h2>
+        <p class="section-desc">All 16 cards — frameworks, how-tos, legal summaries, glossary. Your first stop when you&rsquo;re stuck.</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <a class="resource" href="https://docs.google.com/document/d/1yTiNtEinPq4VyUNE1tnbDWTAJcqHENRLvpR75rOtvHY/edit?usp=sharing" target="_blank" rel="noopener">
+        <div class="resource-inner">
+          <div>
+            <div class="resource-title">The 16 Cards</div>
+            <div class="resource-sub">Prompt framework, KEPT, 5 Levels, AI Habits, Data Sovereignty, PDPA &amp; AIGE, Glossary, how-to cards for Projects, Skills, MCP, Excel &amp; PowerPoint, WASP Project brief, 30-day guide, CLOs.</div>
+          </div>
+          <div class="resource-arrow">→</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ———————— SECTION 02 — TUTOR ———————— -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">02</div>
+      <div>
+        <h2 class="section-title">Build Your Own WASP Tutor</h2>
+        <p class="section-desc">A 5-minute setup that gives you a private Claude Project that knows all 16 cards and answers questions in your own words.</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <a class="resource" href="https://docs.google.com/document/d/1EuESF9rezxB4cT0Mt3LdFodSi1Ol8g2h0hL1L51B3FU/edit?usp=sharing" target="_blank" rel="noopener">
+        <div class="resource-inner">
+          <div>
+            <div class="resource-title">Custom Instructions &amp; Setup Guide</div>
+            <div class="resource-sub">Five-step setup. Paste the custom instructions into a new Claude Project, upload the Reference Library as knowledge base, done.</div>
+          </div>
+          <div class="resource-arrow">→</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ———————— SECTION 03 — FORMS ———————— -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">03</div>
+      <div>
+        <h2 class="section-title">Exercise Forms</h2>
+        <p class="section-desc">All 14 exercise submission forms, organised by day. Open the one you need; submissions route into your trainer&rsquo;s cohort workbook automatically.</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <!-- DAY 1 -->
+      <div class="day-group">
+        <div class="day-label">
+          <span>Day One</span>
+          <span class="day-count">6 forms</span>
+        </div>
+        <ul class="form-list">
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagXdL6qaV9au9n32/form" target="_blank" rel="noopener">
+              <span class="form-tag">M1</span>
+              <span class="form-name">Habit Pick</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagLfJaSaDlK1PrJn/form" target="_blank" rel="noopener">
+              <span class="form-tag">M1</span>
+              <span class="form-name">Data Sovereignty Worksheet</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagxCVT2hEdN81cVV/form" target="_blank" rel="noopener">
+              <span class="form-tag">M1</span>
+              <span class="form-name">Personal AI Governance Commitment</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagUocA5hwDY3zKDf/form" target="_blank" rel="noopener">
+              <span class="form-tag">M2</span>
+              <span class="form-name">Personal Prompt Library</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagt5YLim2OumdMQb/form" target="_blank" rel="noopener">
+              <span class="form-tag">M3</span>
+              <span class="form-name">Claude Project Setup</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagjZI8S80NPNSwkL/form" target="_blank" rel="noopener">
+              <span class="form-tag">M4</span>
+              <span class="form-name">KEPT Scan</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- DAY 2 -->
+      <div class="day-group">
+        <div class="day-label">
+          <span>Day Two</span>
+          <span class="day-count">8 forms</span>
+        </div>
+        <ul class="form-list">
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/paguxxuyhttNKzHmX/form" target="_blank" rel="noopener">
+              <span class="form-tag">M4</span>
+              <span class="form-name">Working Claude Skill</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagClEqpEnan4ietv/form" target="_blank" rel="noopener">
+              <span class="form-tag">M4</span>
+              <span class="form-name">MCP Connector Set Up</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagSsPQ0ojVelpqQ5/form" target="_blank" rel="noopener">
+              <span class="form-tag">M4</span>
+              <span class="form-name">Skill + Connector End-to-End Workflow</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pag2tw5RUAbxl8tpQ/form" target="_blank" rel="noopener">
+              <span class="form-tag">M5</span>
+              <span class="form-name">Claude in Excel Analysis</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagDUq3yXV8hmgp3P/form" target="_blank" rel="noopener">
+              <span class="form-tag">M5</span>
+              <span class="form-name">Excel to PowerPoint End-to-End</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagpQSpLYE2ogFnqd/form" target="_blank" rel="noopener">
+              <span class="form-tag">M6</span>
+              <span class="form-name">WASP Project — Practical Assessment</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagGG7EshFhIP1h94/form" target="_blank" rel="noopener">
+              <span class="form-tag">M6</span>
+              <span class="form-name">30-Day Implementation Plan</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+          <li class="form-item">
+            <a class="form-link" href="https://airtable.com/app3uoYTLaQtd3NQE/pagYMVoKgebuo7aPB/form" target="_blank" rel="noopener">
+              <span class="form-tag">M6</span>
+              <span class="form-name">HRD Corp Feedback — Reaction Evaluation</span>
+              <span class="form-arrow">↗</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ———————— FOOTER ———————— -->
+  <footer class="footer">
+    <div>WASP&nbsp;Cohort&nbsp;Workbench</div>
+    <div class="footer-right">HRD&nbsp;Corp&nbsp;Claimable&nbsp;·&nbsp;Focus&nbsp;Area&nbsp;9</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
